@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.ico">
+<title>JR九州風_駅名標ジェネレーター（v1.0.1）</title>
+<link rel="stylesheet" href="font.css">
+<style>
+
+body {
+  background: #eee;
+  padding: 20px;
+  font-family: "MPLUS1p", "NotoSansJP", sans-serif;
+}
+.container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* ▼ プレビューを縮小表示する（出力には影響しない） */
+#svg-wrapper {
+  width: 900px;      /* プレビュー用の幅 */
+  overflow: hidden;
+}
+#svg-wrapper svg {
+  width: 100%;       /* プレビューは縮小 */
+  height: auto;
+}
+
+.panel {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 350px;
+  font-family: "NotoSansJP";
+}
+.panel h2 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  border-left: 6px solid #c00;
+  padding-left: 10px;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  font-weight: "bold";
+}
+.row label {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.row input {
+  font-size: 16px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button {
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background: #c00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background: #a00;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  font-size: 16px;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #c00; /* JR九州っぽい赤 */
+  cursor: pointer;
+}
+
+.checkbox-row label {
+  cursor: pointer;
+  user-select: none;
+}
+.main-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+/* 左の駅情報パネル */
+.station-panel {
+  flex: 1;
+}
+
+/* 右のナンバリングパネル */
+.numbering-panel {
+  width: 320px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+</style>
+</head>
+
+<body>
+<img src="image/header.png">
+
+<div class="container">
+
+  <div id="svg-wrapper">
+    <svg id="sign"
+         viewBox="0 0 3600 2500"
+         width="3600"
+         height="2500"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <rect width="3600" height="2400" fill="white"/>
+      <g id="name-ja-group" transform="translate(1800, 600)">
+      <text id="station-ja"
+            x="0" y="0"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="390"
+            letter-spacing =""
+            fill="#000">にしこくら</text>
+      </g>
+
+      <g id="name-ja-group" transform="translate(1800, 1070)">
+      <text id="station-kana"
+            x="0" y="0"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="170"
+            fill="#000">西 小 倉</text>
+      </g>
+      <text id="station-en"
+            x="1800" y="870"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="180"
+            fill="#000">NISHI-KOKURA</text>
+
+      <text id="location"
+            x="1800" y="1280"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="120"
+            fill="#000">(北九州市小倉北区)</text>
+
+      <g transform="translate(2500 1530)">
+        <polygon points="0,0 800,100 0,200" fill="red"/>
+      </g>
+
+      <g transform="translate(1100 1530) scale(-1 1)">
+        <polygon points="0,0 800,100 0,200" fill="red"/>
+      </g>
+
+      <g id="name-bs-group" transform="translate(720, 1950)">
+      <text id="b_station_ja"
+            x="0" y="0"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="180"
+            fill="#000">
+      こ く ら    
+      </text>
+      </g>
+      <g id="name-ns-group" transform="translate(2880, 1950)">
+        <text id="n_station_ja"
+            x="0" y="0"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="180"
+            fill="#000">
+        みなみこくら
+        </text>
+      </g>
+      <text id="b_station_en"
+            x="720" y="2100"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="120"
+            fill="#000">
+      KOKURA
+      </text>
+
+      <text id="n_station_en"
+            x="2880" y="2100"
+            text-anchor="middle"
+            font-family="MPLUS1p"
+            font-size="120"
+            fill="#000">      
+      MINAMI-KOKURA
+      </text>
+      <g id="img-box-group">
+        <rect
+      x="1454"
+      y="1500"
+      width="700"
+      height="700"
+      rx="40"
+      ry="40"
+      fill="white"
+      stroke="#000000"
+      stroke-width="8"
+      />
+      <image
+      id="uploaded-img"
+      x="1480"
+      y="1525"
+      width="650"
+      height="650"
+      preserveAspectRatio="xMidYMid slice"
+      />
+      </g>
+<!-- ナンバリング全体 -->
+<g id="numbering-group" transform="translate(-600, -300)scale(0.6)">
+
+  <!-- 土台（色変更可能） -->
+  <rect
+    id="numbering-bg"
+    x="1455"
+    y="900"
+    width="650"
+    height="650"
+    rx="40"
+    ry="40"
+    fill="#1e90ff"
+  />
+    
+  <rect
+    id="numbering-wh"
+    x="1482"
+    y="1120"
+    width="600"
+    height="400"
+    rx="40"
+    ry="40"
+    fill="white"
+  />
+  <!-- 路線イニシャル（上段） -->
+  <text
+    id="numbering-initial"
+    x="1780"
+    y="1080"
+    text-anchor="middle"
+    font-family="MPLUS1p"
+    font-size="200"
+    font-weight="600"
+    fill="#ffffff"
+  >JC</text>
+
+  <!-- 駅番号（下段） -->
+  <text
+    id="numbering-num"
+    x="1780"
+    y="1475"
+    text-anchor="middle"
+    font-family="Roboto"
+    font-size="420"
+    fill="#000000"
+    font-weight = "bold"
+  >06</text>
+
+</g>
+
+
+    </svg>
+  </div>
+
+  <div>
+    <div class="panel">
+      <h2>駅名情報</h2>
+
+      <div class="row"><label>かな</label><input id="input-ja" value="はかた"></div>
+      <div class="row"><label>漢字</label><input id="input-kana"></div>
+      <div class="row"><label>ローマ字</label><input id="input-en"></div>
+      <div class="row"><label>地名</label><input id="input-lc"></div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="toggle-img-box" checked>
+        <label for="toggle-img-box">シンボルマークを表示</label>
+      </div>
+
+      <input type="file" id="img-input" accept="image/*">
+    </div>
+
+    <div class="panel">
+      <h2>ナンバリング</h2>
+
+      <div class="row">
+        <label>路線イニシャル</label>
+        <input id="line-initial" placeholder="例：JK">
+      </div>
+      <div class="row">
+        <label>色</label>
+        <input type="color" id="numbering-color" value="#ffffff">
+      </div>
+
+      <div class="row">
+        <label>駅番号</label>
+        <input id="station-number" placeholder="例：12">
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="toggle-numbering" checked>
+        <label for="toggle-numbering">ナンバリングを表示</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>前後駅情報</h2>
+
+      <div class="row"><label>前駅（かな）</label><input id="input-bs"></div>
+      <div class="row"><label>前駅（英語）</label><input id="input-bs-en"></div>
+      <div class="row"><label>次駅（かな）</label><input id="input-ns"></div>
+      <div class="row"><label>次駅（英語）</label><input id="input-ns-en"></div>
+    </div>
+
+    <button id="png-btn">PNG 出力</button>
+  </div>
+
+</div>
+<script src="script.js" charset="utf-8"></script>
+<script src="text.js" charset="utf-8"></script>
+<script>
+
+</script>
+
+</body>
+</html>
