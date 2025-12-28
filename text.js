@@ -288,4 +288,5 @@ function updatensspace() {
   });
 }
 
-document.getElementById("input-bs").addEventListener("input", updatensspace);
+document.getElementById("input-ns").addEventListener("input", updatensspace);
+
