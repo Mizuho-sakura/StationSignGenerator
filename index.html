@@ -228,12 +228,57 @@ button#png-btn:hover {
 button#png-btn:active {
   transform: translateY(0);
 }
+/* ヘッダー全体のデザイン */
+.site-header {
+  background-color: #1a1a1a; /* 黒背景 */
+  width: 100%;
+  margin-bottom: 30px;
+}
 
+.header-content {
+  color: #ffffff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-family: "Roboto", sans-serif;
+}
+
+/* ゴールドのライン */
+.header-stripe {
+  height: 4px;
+  background: linear-gradient(to right, #b8860b, #e6b422, #b8860b); /* ゴールドのグラデーション */
+  width: 100%;
+}
+
+/* 既存のbodyの余白調整 */
+body {
+  margin: 0;
+  padding: 0 0 40px 0; /* 上のpaddingを0にする */
+  background-color: var(--bg-color);
+  font-family: "Noto Sans JP", sans-serif;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* コンテナに少し上余白を持たせる */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  ...
+}
 </style>
 </head>
 
 <body>
-
+<header class="site-header">
+  <div class="header-content">
+    STATION NAME BOARD GENERATOR / 九州旅客鉄道風
+  </div>
+  <div class="header-stripe"></div>
+</header>
 <div class="container">
 
   <div id="svg-wrapper">
@@ -446,4 +491,5 @@ button#png-btn:active {
 
 </body>
 </html>
+
 
