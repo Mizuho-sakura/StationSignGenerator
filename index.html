@@ -325,10 +325,89 @@ body {
     padding: 5px 8px;
   }
 }
+
+/* 白背景・黒文字のローディング画面 */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* 白背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-logo {
+    color: #111; /* 黒文字 */
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    margin-bottom: 25px;
+    /* 鉄道のタイポグラフィらしく少しシャープに */
+    font-family: "Roboto", "Noto Sans JP", sans-serif;
+}
+
+/* 進行状況を示すライン */
+.loader-line-container {
+    width: 180px;
+    height: 2px; /* 少し細くして繊細に */
+    background: #eee;
+    margin: 0 auto 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loader-line {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #c00; /* JR九州の赤 */
+    animation: linePass 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.loader-text {
+    color: #999;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* フェードアウト用クラス */
+#loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes linePass {
+    0% { left: -100%; }
+    50% { left: 0; }
+    100% { left: 100%; }
+}
+
 </style>
 </head>
 
 <body>
+<div id="loader">
+    <div class="loader-content">
+        <div class="loader-logo">読み込み中</div>
+        <div class="loader-line-container">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-text">Loading...</div>
+    </div>
+</div>
 <header class="site-header">
   <div class="header-top-bar">
     <a href="index.html" class="back-to-portal">
@@ -547,9 +626,18 @@ body {
 
 <script src="script.js" charset="utf-8"></script>
 <script src="text.js" charset="utf-8"></script>
-
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('loader');
+        // 少し余韻を残してから消す（0.5秒待機）
+        setTimeout(function() {
+            loader.classList.add('loaded');
+        }, 200);
+    });
+</script>
 </body>
 </html>
+
 
 
 
